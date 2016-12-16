@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<!-- arg name="world_name" default="house" / -->
+	<arg name="world_name" default="basic" />
+	<arg name="paused" value="false" />
+
+	<env name="GAZEBO_MODEL_PATH" value="$(find rotors_gazebo)/models" />
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find rotors_gazebo)/worlds/$(arg world_name).world" />
+		<arg name="paused" value="$(arg paused)" />
+	</include>
+	
+	<!-- 
+
+		<arg name="mav_name" default="autogen_xacro" />
+		<arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name).urdf" />
+		
+		<arg name="mav_name" default="dummy" />
+		<arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name).urdf" />
+		
+		<arg name="mav_name" default="firefly_formation" />
+		<arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name).xacro" />
+		
+			<remap from="odometry" to="odometry_sensor1/odometry" />
+			<remap from="odometry" to="ground_truth/odometry" />
+			
+	 -->
+
+	<group ns="$(arg mav_name)">
+		<!-- arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name)_base.xacro"/ -->
+		<arg name="mav_name" default="firefly_formation1" />
+		<arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name).xacro" />
+		<arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)" />
+		<arg name="x" default="0.0" />
+		<arg name="y" default="0.0" />
+		<arg name="z" default="0.1" />
+		<arg name="enable_logging" default="false" />
+		<arg name="enable_ground_truth" default="true" />
+		<arg name="log_file" default="$(arg mav_name)" />
+		<arg name="enable_mavlink_interface" default="false" />
+
+		<param name="robot_description"
+			command=" $(find xacro)/xacro.py '$(arg model)' enable_logging:=$(arg
+		enable_logging) enable_ground_truth:=$(arg enable_ground_truth) enable_mavlink_interface:=$(arg
+		enable_mavlink_interface) log_file:=$(arg log_file) mav_name:=$(arg mav_name) namespace:=$(arg mav_name)" />
+		<param name="tf_prefix" type="string" value="$(arg tf_prefix)" />
+
+		<node name="spawn_$(arg mav_name)" pkg="gazebo_ros" type="spawn_model"
+			args="-param
+		robot_description -urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg mav_name)"
+			respawn="false" output="screen">
+		</node>
+		
+		<node name="lee_position_controller_node" pkg="rotors_control"
+			type="lee_position_controller_node" output="screen" args="a">
+			<rosparam command="load" file="$(find rotors_gazebo)/resource/lee_controller_firefly_formation1.yaml" />
+			<rosparam command="load" file="$(find rotors_gazebo)/resource/firefly_formation1.yaml" />
+			<remap from="odometry" to="ground_truth/odometry" />
+			<remap from="command/motor_speed" to="gazebo/command/motor_speed"/>
+		</node>
+		<node name="robot_state_publisher" pkg="robot_state_publisher"
+			type="robot_state_publisher" />
+		<node name="joint_state_publisher" pkg="joint_state_publisher"
+			type="joint_state_publisher" />
+		<node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher"
+			output="screen" args="0 0 5 0 1" />
+		<node name="hovering_example" pkg="rotors_gazebo" type="hovering_example"
+			output="screen" args="a" />
+
+	</group>
+
+</launch>

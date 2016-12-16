@@ -1,0 +1,5 @@
+<launch>  
+   <group ns="firefly">
+    <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen" args="21 5 3 0 1"/>
+  </group>
+</launch>

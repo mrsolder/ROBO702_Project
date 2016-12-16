@@ -1,0 +1,26 @@
+# Firefly vehicle parameters
+mass: 4.70337
+inertia: {xx: 4.70337, xy: 0.0, xz: 0.0, yy: 0.1376787, yz: 0.0, zz: 4.70337}
+
+# angle should be expressed in rad
+# direction 1 means counter clockwise, -1 clockwise
+# The order of the rotors matters for the calculation of the allocation matrix.
+rotor_configuration:
+  '0': {angle: 0.52359877559, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '1': {angle: 1.57079632679, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '2': {angle: 2.61799387799, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '3': {angle: -2.61799387799, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '4': {angle: -1.57079632679, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '5': {angle: -0.52359877559, arm_length: 0.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '6': {angle: 1.43834172833208, arm_length: 1.63935963107386, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '7': {angle: 1.5707963267942, arm_length: 1.75, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '8': {angle: 1.7032509252568, arm_length: 1.6393596310758, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '9': {angle: 1.7269731977733, arm_length: 1.39194109070716, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '10': {angle: 1.57079632679392, arm_length: 1.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '11': {angle: 1.41461945581586, arm_length: 1.39194109070944, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '12': {angle: -1.41461945581586, arm_length: 1.39194109070944, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '13': {angle: -1.57079632679392, arm_length: 1.25, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '14': {angle: -1.7269731977733, arm_length: 1.39194109070716, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '15': {angle: -1.7032509252568, arm_length: 1.6393596310758, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}
+  '16': {angle: -1.5707963267942, arm_length: 1.75, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: 1.0}
+  '17': {angle: -1.43834172833208, arm_length: 1.63935963107386, rotor_force_constant: 0.00000854858, rotor_moment_constant: 0.016, direction: -1.0}

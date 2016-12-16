@@ -1,0 +1,8 @@
+<launch>  
+   <group ns="firefly2">
+    <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen" args="-0.125 2 0.38 0 1"/>
+  </group>
+   <group ns="firefly">
+    <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen" args="0.975 2 0.38 0 1"/>
+  </group>
+</launch>

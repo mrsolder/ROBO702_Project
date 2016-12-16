@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="mav_name" default="firefly2"/>
+	<arg name="mav_name2" default=""/>
+	<arg name="model" default="$(find rotors_description)/urdf/$(arg mav_name)_base.xacro"/>
+	<arg name="model2" default="$(find rotors_description)/urdf/firefly2.xacro"/>
+	<arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
+	<arg name="x" default="0.0"/>
+	<arg name="y" default="0.0"/>
+	<arg name="z" default="0.1"/>
+	<arg name="enable_logging" default="false"/>
+	<arg name="enable_ground_truth" default="true"/>
+	<arg name="log_file" default="$(arg mav_name)"/>
+	<arg name="enable_mavlink_interface" default="false"/>
+	
+	<!-- send the robot XML to param server -->
+	<param name="robot_description" command=" $(find xacro)/xacro.py '$(arg model)' enable_logging:=$(arg
+		enable_logging) enable_ground_truth:=$(arg enable_ground_truth) enable_mavlink_interface:=$(arg
+		enable_mavlink_interface) log_file:=$(arg log_file) mav_name:=$(arg mav_name)" />
+	
+	<param name="tf_prefix" type="string" value="$(arg tf_prefix)" />
+	
+	<!-- push robot_description to factory and spawn robot in gazebo -->
+	<node name="spawn_$(arg mav_name)" pkg="gazebo_ros" type="spawn_model" args="-param
+		robot_description -urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg mav_name)"
+		respawn="false" output="screen">
+	</node>
+	
+	<!--code for effort controller below-->
+	<!-- If you have to activate the effort controller uncomment following lines also
+		change the hardwareinterface in the firefly and firefly2 xacro -->
+	<!--rosparam file="$(find rotors_gazebo)/effort.yaml" command="load"/-->
+	
+	<!--node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/$(arg mav_name)" args="joint_state_controller joint1_position_controller
+		joint2_position_controller"/-->
+	<!-- If you have to activate the effort controller uncomment above lines also change
+		the hardwareinterface in the firefly and firefly2 xacro -->
+	
+	<!--code for trajectory controller below-->
+	<!-- If you have to activate the trajectory controller uncomment following lines also
+		change the hardwareinterface in the firefly and firefly2 xacro -->
+	<!--rosparam file="$(find rotors_gazebo)/controllers.yaml" command="load"/-->
+	<!--node name="controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller"/-->
+	<!-- If you have to activate the trajectory controller uncomment above lines also
+		change the hardwareinterface in the firefly and firefly2 xacro -->
+	
+</launch>

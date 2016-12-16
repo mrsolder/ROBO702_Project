@@ -1,0 +1,8 @@
+<launch>
+	<group ns="firefly2">
+		<node pkg="rosservice" type="rosservice" name="" args="call on"/>
+	</group>
+	<group ns="firefly">
+		<node pkg="rosservice" type="rosservice" name="" args="call on"/>
+	</group>
+</launch>

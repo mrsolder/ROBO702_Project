@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!-- Copyright 2015 Fadri Furrer, ASL, ETH Zurich, Switzerland Copyright 
+	2015 Michael Burri, ASL, ETH Zurich, Switzerland Copyright 2015 Mina Kamel, 
+	ASL, ETH Zurich, Switzerland Copyright 2015 Janosch Nikolic, ASL, ETH Zurich, 
+	Switzerland Copyright 2015 Markus Achtelik, ASL, ETH Zurich, Switzerland 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. LEADER 
+	UAV LEADER UAV LEADER UAV LEADER UAV LEADER UAV -->
+
+<robot name="formation" xmlns:xacro="http://ros.org/wiki/xacro">
+	<xacro:include filename="$(find rotors_description)/urdf/firefly_N.xacro" />
+	<xacro:include filename="$(find rotors_description)/urdf/component_snippets.xacro" />
+
+	<link name="base_link">
+		<collision>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<geometry>
+				<box size="0.5 2.0 0.2" />
+			</geometry>
+		</collision>
+		<visual>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<geometry>
+				<box size="0.5 2.0 0.2" />
+			</geometry>
+			<material name="orange" />
+		</visual>
+		<inertial>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<mass value="1.00" />
+			<inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0.0" ixz="0.0"
+				iyz="0.0" />
+		</inertial>
+	</link>
+
+	<link name="side_link">
+		<collision>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<geometry>
+				<box size="2.0 0.5 0.2" />
+			</geometry>
+		</collision>
+		<visual>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<geometry>
+				<box size="2.0 0.5 0.2" />
+			</geometry>
+			<material name="orange" />
+		</visual>
+		<inertial>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+			<mass value="1.00" />
+			<inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0.0" ixz="0.0"
+				iyz="0.0" />
+		</inertial>
+	</link>
+	
+	<joint name="side_base_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="side_link"/>
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+		<axis xyz="0.0 0.0 0.0" />
+	</joint>
+
+	<xacro:firefly namespace="$(arg namespace)" mav_name="x1" m0="0" m1="1" m2="2" m3="3" m4="4" m5="5"
+		ox="0" oy="0" oz="0.5" ophi="0" otheta="0" opsi="0"/>
+
+	<joint name="formation_joint_x1" type="revolute">
+		<parent link="base_link" />
+		<child link="$(arg namespace)/x1/base_link" />
+		<origin xyz="0.0 0.0 0.2" rpy="0 0 0" />
+		<axis xyz="0.0 0.0 0.2" />
+		<limit effort="1000.0" lower="-0.001" upper="0.001" velocity="0.01"/>
+		<dynamics damping="0" />
+	</joint>
+
+	<xacro:firefly namespace="$(arg namespace)" mav_name="x2" m0="6" m1="7" m2="8" m3="9" m4="10" m5="11"
+		ox="0" oy="0" oz="0.5" ophi="0" otheta="0" opsi="0"/>
+
+	<joint name="formation_joint_x2" type="revolute">
+		<parent link="base_link" />
+		<child link="$(arg namespace)/x2/base_link" />
+		<origin xyz="0.75 0.0 0.2" rpy="0 0 0" />
+		<axis xyz="0.75 0.0 0.2" />
+		<limit effort="1000.0" lower="-0.001" upper="0.001" velocity="0.01"/>
+		<dynamics damping="0" />
+	</joint>
+
+	<xacro:firefly namespace="$(arg namespace)" mav_name="x3" m0="12" m1="13" m2="14" m3="15" m4="16" m5="17"
+		ox="0" oy="1.5" oz="0.5" ophi="0" otheta="0" opsi="0"/>
+
+	<joint name="formation_joint_x3" type="revolute">
+		<parent link="base_link" />
+		<child link="$(arg namespace)/x3/base_link" />
+		<origin xyz="0.0 0.75 0.2" rpy="0 0 0" />
+		<axis xyz="0.0 0.75 0.2" />
+		<limit effort="1000.0" lower="-0.001" upper="0.001" velocity="0.01"/>
+		<dynamics damping="0" />
+	</joint>
+
+	<xacro:firefly namespace="$(arg namespace)" mav_name="x4" m0="18" m1="19" m2="20" m3="21" m4="22" m5="23"
+		ox="0" oy="1.5" oz="0.5" ophi="0" otheta="0" opsi="0"/>
+
+	<joint name="formation_joint_x4" type="revolute">
+		<parent link="base_link" />
+		<child link="$(arg namespace)/x4/base_link" />
+		<origin xyz="-0.75 0.0 0.2" rpy="0 0 0" />
+		<axis xyz="-0.75 0.0 0.2" />
+		<limit effort="1000.0" lower="-0.001" upper="0.001" velocity="0.01"/>
+		<dynamics damping="0" />
+	</joint>
+
+	<xacro:firefly namespace="$(arg namespace)" mav_name="x5" m0="24" m1="25" m2="26" m3="27" m4="28" m5="29"
+		ox="0" oy="1.5" oz="0.5" ophi="0" otheta="0" opsi="0"/>
+
+	<joint name="formation_joint_x5" type="revolute">
+		<parent link="base_link" />
+		<child link="$(arg namespace)/x5/base_link" />
+		<origin xyz="0.0 -0.75 0.2" rpy="0 0 0" />
+		<axis xyz="0.0 -0.75 0.2" />
+		<limit effort="1000.0" lower="-0.001" upper="0.001" velocity="0.01"/>
+		<dynamics damping="0" />
+	</joint>
+
+
+	<!-- attach multirotor_base_plugin to the base_link -->
+	<gazebo>
+		<plugin filename="librotors_gazebo_multirotor_base_plugin.so"
+			name="$(arg namespace)_multirotor_base_plugin">
+			<robotNamespace>$(arg namespace)</robotNamespace>
+			<linkName>$(arg namespace)/x1/base_link</linkName>
+			<rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+		</plugin>
+	</gazebo>
+	
+	<xacro:ground_truth_imu_and_odometry namespace="$(arg namespace)" parent_link="$(arg namespace)/x1/base_link"/>
+</robot>
